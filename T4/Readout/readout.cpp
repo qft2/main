@@ -115,48 +115,51 @@ int main(int argc, char* argv[]) {
 	usleep(1e4);
 
         printf("waiting for event\n");
+	int odex=0;
+	while(1){
+		const int ulin=100;
+		
+		// wait for next event (trigger)
+		for(int r=0;r<ulin;r++){
+			while(!device->isEventReady()) {
+				usleep(1e3);
+			}
+
+			caen_xx725_30_event event;
+			device->BlockTransfer_D32(event);
+			
+	// 		printf("event.getEventSize() = %d\n", event.getEventSize());
+	// 		printf("event.getChannelLength() = %d\n", event.getChannelLength());
+	// 		printf("event.getChannelMask() = %d\n", event.getChannelMask());
+	// 		printf("event.getEventCounter() = %d\n", event.getEventCounter());
+	// 		printf("event.getTriggerTimeTag() = %d\n", event.getTriggerTimeTag());
+	// 		printf("event.getNumberOfChannels() = %d\n", event.getNumberOfChannels());
+	// 		printf("event.getWaveformLength() = %d\n", event.getWaveformLength());
+			
+			stringstream ss;
+			ss << argv[1];
+			ss << "/file";
+			ss << odex<<"_";
+			ss << r;
+			string str = ss.str();
+			
+			ofstream io(str+".txt");
+
+
+			for (uint j = 0; j < event.getChannelLength(); j++) {
+				uint16_t ac=(uint16_t) (event.getChannelDataAddress(0)[j] & 0x3FFF);
+				//read first sample in word
+				io << ac << endl;
+			}
+
+			io.close();
+		}
+		cout<<"did measurement "<<odex<<endl;
+		odex++;
+		printf("now waiting for 5s\n");
+		usleep(5000000);
 
 	
-	const int ulin=500;
-	
-	// wait for next event (trigger)
-	for(int r=0;r<ulin;r++){
-		while(!device->isEventReady()) {
-			usleep(1e3);
-		}
-
-		caen_xx725_30_event event;
-		device->BlockTransfer_D32(event);
-		
-// 		printf("event.getEventSize() = %d\n", event.getEventSize());
-// 		printf("event.getChannelLength() = %d\n", event.getChannelLength());
-// 		printf("event.getChannelMask() = %d\n", event.getChannelMask());
-// 		printf("event.getEventCounter() = %d\n", event.getEventCounter());
-// 		printf("event.getTriggerTimeTag() = %d\n", event.getTriggerTimeTag());
-// 		printf("event.getNumberOfChannels() = %d\n", event.getNumberOfChannels());
-// 		printf("event.getWaveformLength() = %d\n", event.getWaveformLength());
-		
-		stringstream ss;
-		ss << argv[1];
-		ss << "/file";
-		ss << r;
-		string str = ss.str();
-		
-		ofstream io(str+".txt");
-		uint sum=0;
-		uint max=0;
-
-		for (uint j = 0; j < event.getChannelLength(); j++) {
-			uint16_t ac=(uint16_t) (event.getChannelDataAddress(0)[j] & 0x3FFF);
-			uint16_t dd=abs(ac-820);
-			if(dd>max){max=dd;}
-			sum+=dd;
-			//read first sample in word
-			io << ac << endl;
-		}
-		cout<<r<<" found max="<<max<<" and sum="<<sum<<endl;
-
-		io.close();
 	}
 	device->stop();
 
