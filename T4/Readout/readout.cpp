@@ -115,9 +115,9 @@ int main(int argc, char* argv[]) {
 	usleep(1e4);
 
         printf("waiting for event\n");
-	int odex=0;
-	while(1){
-		const int ulin=100;
+// 	int odex=0;
+// 	while(1){
+		const int ulin=500;
 		
 		// wait for next event (trigger)
 		for(int r=0;r<ulin;r++){
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 			stringstream ss;
 			ss << argv[1];
 			ss << "/file";
-			ss << odex<<"_";
+// 			ss << odex<<"_";
 			ss << r;
 			string str = ss.str();
 			
@@ -151,16 +151,16 @@ int main(int argc, char* argv[]) {
 				//read first sample in word
 				io << ac << endl;
 			}
-
+			cout<<"did "<<r<<endl;
 			io.close();
 		}
-		cout<<"did measurement "<<odex<<endl;
-		odex++;
-		printf("now waiting for 5s\n");
-		usleep(5000000);
+// 		cout<<"did measurement "<<odex<<endl;
+// 		odex++;
+// 		printf("now waiting for 5s\n");
+// 		usleep(5000000);
 
 	
-	}
+// 	}
 	device->stop();
 
 	delete device;
