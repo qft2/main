@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
         printf("waiting for event\n");
 
 	
-	const int ulin=250;
+	const int ulin=500;
 	
 	// wait for next event (trigger)
 	for(int r=0;r<ulin;r++){
