@@ -1,0 +1,5 @@
+Szintillator->Threshold: 2ns
+Treshold->Coinzidenz: 2ns
+Coinzidenz->Trigger input: 5ns
+Kammer->Alplifier: 5ns
+Amplifier->FADC: 10ns
