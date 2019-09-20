@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
@@ -95,6 +96,12 @@ int main(int argc, char* argv[]) {
 		printf("device->getPostTrigger() = %d\n", device->getPostTrigger());
 	}
 
+	stringstream s0;
+	s0<<"mkdir ";
+	s0 <<argv[1];
+	const char* st0=(s0.str()).c_str();
+	const int dir_err=system(st0);
+	if(dir_err==-1){printf("error creating dir\n");return -1;}
         printf("starting measurement\n");
         
 	// start measurement
