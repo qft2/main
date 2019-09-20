@@ -1,0 +1,16 @@
+Szintillator->Threshold: 2ns
+Treshold->Coinzidenz: 2ns
+Coinzidenz->Trigger input: 5ns
+Kammer->Alplifier: 5ns
+Amplifier->FADC: 10ns
+
+PMT voltage:
+  2034 (für 1)
+  2014 (für 2)
+  
+Treshold:
+  -1.984 (für 1)
+  -1.893 (für 2)
+  
+  
+grob verstärkung 5/0.01888
